@@ -9,7 +9,7 @@ services:
       - .:/usr/src/app
     environment:
       PORT: 3000
-      JWT_SECRET: yoursecretissafeornot
-      MONGODB_URL: mongodb+srv://timiajibade24:naU29kqtGJAyWY23@cluster0.sbgkj.mongodb.net/
+      JWT_SECRET: ${JWT_SECRET}
+      MONGODB_URL: ${MONGODB_URL}
       
     
