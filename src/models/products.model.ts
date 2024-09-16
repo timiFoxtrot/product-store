@@ -17,7 +17,14 @@ const ProductSchema: Schema = new Schema(
     price: { type: Number, required: true },
     owner: { type: String, ref: 'User', required: true },
   },
-  { _id: false },
+  {
+    _id: false,
+    id: false,
+    toJSON: {
+      virtuals: true,
+      versionKey: false
+    },
+  },
 );
 
 const Product = model<IProduct>('Product', ProductSchema);

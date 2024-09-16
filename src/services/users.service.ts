@@ -10,4 +10,8 @@ export class UserService {
   async register(user: IUser): Promise<IUser> {
     return this.userRepository.create(user);
   }
+
+  async login(email: string, password: string) {
+    return this.userRepository.login({email, password})
+  }
 }

@@ -13,8 +13,21 @@ declare global {
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ message: 'Access denied' });
+    const publicEndpoints = ['/users/login', '/users/register', '/products/all'];
+    if (publicEndpoints.includes(req.path)) {
+      return next();
+    }
+    const authorizationHeader = req.header('Authorization');
+
+
+    if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ success: false, statusCode: 401, message: 'Invalid authorization header' });
+    }
+
+    const token = authorizationHeader.replace('Bearer ', '');
+    if (!token) {
+        return res.status(401).json({ success: false, statusCode: 401, message: 'Authorization token not found' });
+    }
 
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const user = await User.findById(decoded.id);
@@ -23,7 +36,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     req.user = user;
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Access denied' });
+    res.status(401).json({ message: 'Invalid token' });
   }
 };
 
