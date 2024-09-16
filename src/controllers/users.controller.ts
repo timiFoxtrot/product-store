@@ -3,6 +3,7 @@ import { inject } from 'inversify';
 import { UserService } from '../services/users.service';
 import MODULE_IDENTIFIERS from '../common/config/identifiers';
 import { Request, Response } from 'express';
+import { userSchema } from '../common/validator';
 
 @controller('/users')
 export class UserController {
@@ -11,10 +12,20 @@ export class UserController {
   @httpPost('/register')
   async createUser(req: Request, res: Response): Promise<any> {
     try {
+      const { error } = userSchema.validate(req.body, { abortEarly: false });
+
+      if (error) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'Validation failed',
+          details: error.details.map((err) => err.message),
+        });
+      }
+      
       const result = await this.userService.register(req.body);
-      res.status(201).send({ data: result });
+      res.status(201).json({ data: result });
     } catch (error) {
-      res.status(500).send({
+      res.status(400).json({
         status: 'error',
         message: error,
       });
@@ -26,9 +37,9 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const result = await this.userService.login(email, password);
-      res.status(200).send({ data: result });
+      res.status(200).json({ data: result });
     } catch (error) {
-      res.status(500).send({
+      res.status(400).json({
         status: 'error',
         message: error,
       });

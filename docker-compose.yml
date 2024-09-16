@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  api:
+    build: .
+    ports:
+      - 4000:3000
+    volumes:
+      - .:/usr/src/app
+    environment:
+      PORT: 3000
+      JWT_SECRET: yoursecretissafeornot
+      MONGODB_URL: mongodb+srv://timiajibade24:naU29kqtGJAyWY23@cluster0.sbgkj.mongodb.net/
+      
+    
