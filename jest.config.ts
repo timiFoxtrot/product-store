@@ -1,26 +1,3 @@
-// module.exports = {
-//   preset: 'ts-jest',
-//   testEnvironment: 'node',
-//   moduleFileExtensions: ['ts', 'js', 'json'],
-//   roots: ['<rootDir>/src'],
-//   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$',
-//   transform: {
-//     '^.+\\.(t|j)s$': 'ts-jest',
-//   },
-//   collectCoverage: true,
-//   clearMocks: true,
-//   collectCoverageFrom: ['src/**/*.(t|j)s'],
-//   coverageDirectory: './coverage',
-//   coverageThreshold: {
-//     global: {
-//       branches: 80,
-//       functions: 80,
-//       lines: 80,
-//       statements: 80,
-//     },
-//   },
-// };
-
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
@@ -30,7 +7,12 @@ export default {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/Refurbishment/**/*.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/src/controllers/**/*.ts',
+    '<rootDir>/src/services/**/*.ts',
+    '<rootDir>/src/models/**/*.ts',
+    '<rootDir>/src/repositories/**/*.ts',
+  ],
   clearMocks: true,
   coverageDirectory: `./coverage`,
 };

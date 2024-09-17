@@ -10,7 +10,7 @@ export class UserController {
   constructor(@inject(MODULE_IDENTIFIERS.UserService) private userService: UserService) {}
 
   @httpPost('/register')
-  async createUser(req: Request, res: Response): Promise<any> {
+  async createUser(req: Request, res: Response) {
     try {
       const { error } = userSchema.validate(req.body, { abortEarly: false });
 
@@ -21,13 +21,13 @@ export class UserController {
           details: error.details.map((err) => err.message),
         });
       }
-      
+
       const result = await this.userService.register(req.body);
       res.status(201).json({ data: result });
     } catch (error) {
       res.status(400).json({
         status: 'error',
-        message: error,
+        message: error.message || 'An error occurred during signup',
       });
     }
   }
@@ -38,10 +38,11 @@ export class UserController {
       const { email, password } = req.body;
       const result = await this.userService.login(email, password);
       res.status(200).json({ data: result });
-    } catch (error) {
+    } catch (error: any) {
+      console.log({ error }, typeof error);
       res.status(400).json({
         status: 'error',
-        message: error,
+        message: error.message || 'An error occurred during login',
       });
     }
   }
