@@ -1,4 +1,5 @@
 const MODULE_IDENTIFIERS = {
+  HealthController: Symbol.for('HealthController'),
   UserController: Symbol.for('UserController'),
   ProductController: Symbol.for('ProductController'),
 

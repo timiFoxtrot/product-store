@@ -39,7 +39,6 @@ export class UserController {
       const result = await this.userService.login(email, password);
       res.status(200).json({ data: result });
     } catch (error: any) {
-      console.log({ error }, typeof error);
       res.status(400).json({
         status: 'error',
         message: error.message || 'An error occurred during login',
