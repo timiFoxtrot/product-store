@@ -6,9 +6,9 @@ import User, { IUser } from '../models/users.model';
 @injectable()
 export class UserRepository {
   async create(user: IUser): Promise<IUser> {
-    const existingUser = await User.findOne({ email: user.email });
+    const existingUser = await User.findOne({ email: user.email.toLowerCase() });
     if (existingUser) throw new Error('Email already taken');
-    const newUser = new User(user);
+    const newUser = new User({...user, email: user.email.toLowerCase()});
     return await newUser.save();
   }
 

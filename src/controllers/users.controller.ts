@@ -21,7 +21,6 @@ export class UserController {
           details: error.details.map((err) => err.message),
         });
       }
-
       const result = await this.userService.register(req.body);
       res.status(201).json({ data: result });
     } catch (error) {
@@ -36,7 +35,7 @@ export class UserController {
   async login(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
-      const result = await this.userService.login(email, password);
+      const result = await this.userService.login(email.toLowerCase(), password);
       res.status(200).json({ data: result });
     } catch (error: any) {
       res.status(400).json({
